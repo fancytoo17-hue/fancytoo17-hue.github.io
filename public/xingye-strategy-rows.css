@@ -1,0 +1,7 @@
+/* Restore top-to-bottom reading, with a compact label-to-copy gap. */
+.xy-strategy-points{grid-template-columns:minmax(0,1fr);gap:22px}
+.xy-strategy-point{display:grid;grid-template-columns:118px minmax(0,1fr);column-gap:14px;align-items:baseline}
+.xy-strategy-point h5{margin-bottom:0;white-space:nowrap}
+
+/* Align the decorative frame edge with the section heading. */
+.xy-corner-variant .xy-strategy-points{padding-left:10px}

@@ -1,0 +1,41 @@
+/* Xingye-only composition trial. Dimensions follow the existing 1200px canvas. */
+.xy-case .jr-top{min-height:440px}
+.xy-case .jr-copy{padding:38px 34px 40px}
+.xy-case .jr-copy h3{font-family:var(--sans);font-size:28px;line-height:1.5;letter-spacing:-.4px;margin:0 0 22px;font-weight:500}
+.xy-case .jr-copy .xy-project{font:400 13px/1.65 var(--sans);color:#767676;margin:0 0 20px;max-width:35em}
+.xy-case .jr-copy .xy-intro,.xy-case .jr-copy .xy-result{font-family:var(--sans);font-size:16.8px;line-height:1.8;letter-spacing:0}
+.xy-case .jr-copy .xy-result{color:#171717;font-weight:600}
+.xy-case .jr-toggle{min-height:64px;padding:20px 34px;font-family:var(--sans);font-size:15px;letter-spacing:0}
+.xy-case .jr-columns{inset:-65px -10px -100px 10px}
+.xy-case .jr-detail-inner{padding:0 34px}
+.xy-strategy{display:grid;grid-template-columns:.85fr 1.15fr;gap:30px;align-items:start;padding:22px 0 36px}
+.xy-prose{font:400 16px/1.85 var(--sans);color:#555}
+.xy-prose p{margin:0 0 22px}
+.xy-prose p:last-child{margin-bottom:0}
+.xy-figure{margin:0;min-width:0}
+.xy-open-image{display:block;position:relative;padding:0;width:100%;border:0;background:#f2f2f2;cursor:zoom-in;border-radius:8px;overflow:hidden}
+.xy-open-image img{display:block;width:100%;height:auto}
+.xy-enlarge{position:absolute;right:10px;bottom:10px;background:#fff;color:#333;border-radius:5px;padding:5px 9px;font:400 12px/1.5 var(--sans);opacity:0;transition:opacity .2s}
+.xy-open-image:hover .xy-enlarge,.xy-open-image:focus-visible .xy-enlarge{opacity:1}
+.xy-figure figcaption{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font:400 13px/1.5 var(--sans);color:#767676}
+.xy-figure figcaption span:first-child{color:#444}
+.xy-overview{width:78%;margin:0 auto 32px}
+.xy-evidence-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.xy-detail-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid #e5e5e5;margin-top:34px;padding:22px 0 28px;color:#767676;font:400 13px/1.6 var(--sans)}
+.xy-detail-footer p{margin:0}.xy-collapse{border:0;background:none;color:#444;cursor:pointer;padding:8px}
+.xy-lightbox{position:fixed;inset:0;margin:auto;width:min(1500px,94vw);max-width:94vw;max-height:94vh;padding:0;border:1px solid #ddd;border-radius:12px;background:white;color:#222;font-family:var(--sans)}
+.xy-lightbox::backdrop{background:rgba(0,0,0,.7)}
+.xy-lightbox header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;border-bottom:1px solid #e5e5e5}
+.xy-lightbox header p{margin:0;font-size:16px}.xy-lightbox header div{display:flex;gap:8px;flex-shrink:0}
+.xy-lightbox header button{font:400 13px/1.4 var(--sans);border:1px solid #ddd;background:#fff;color:#333;border-radius:6px;padding:8px 10px;cursor:pointer}
+.xy-image-scroll{max-height:calc(94vh - 68px);overflow:auto;background:#f2f2f2}
+.xy-image-scroll img{display:block;width:100%;height:auto}
+.xy-image-scroll.is-zoomed img{width:1920px;max-width:none}
+.xy-lightbox button:focus-visible,.xy-case button:focus-visible{outline:2px solid #29415b;outline-offset:-3px}
+@media(max-width:480px){.xy-lightbox header{padding:10px;gap:8px}.xy-lightbox header p{font-size:13px}.xy-lightbox header button{font-size:12px;padding:7px}}
+@media(prefers-reduced-motion:reduce){.xy-enlarge{transition:none}}
+
+/* Issue 1: equal full-slide frames; preserve every original page. */
+.xy-case .jr-track{display:flow-root}
+.xy-case .xy-preview{position:relative;aspect-ratio:16/9;background:#fff;padding:4px;overflow:hidden}
+.xy-case .xy-preview img{position:static;display:block;width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center}

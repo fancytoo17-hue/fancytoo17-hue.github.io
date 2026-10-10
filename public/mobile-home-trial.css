@@ -1,0 +1,17 @@
+/* Scale the approved 1740 x 1094 composition as a single unit.
+   Typography, image geometry, controls and spacing come from the desktop CSS. */
+@media(max-width:760px){
+.hero-band{width:100%!important;min-width:0;justify-self:stretch}
+.hero-band .viewport-fit{width:100%!important;height:calc(1094px * var(--home-mobile-scale))!important}
+.hero-band .artboard{left:0!important;transform:scale(var(--home-mobile-scale))!important}
+.hero-band .portrait{left:0!important;width:1740px!important}
+.hero-band .stage{touch-action:pan-y}
+.fixed-nav{height:calc(102px * var(--home-mobile-scale))!important}
+.fixed-nav .iso-navigation{transform:translateX(-50%) scale(var(--home-mobile-scale))!important}
+.hero-copy .headline-line:active em{color:#80b8ff}
+}
+
+/* Touch preview must not depend on the desktop entrance observer to show work. */
+@media (hover:none), (max-width:760px){
+#portfolio-closing .bottom-cta-bg-w{opacity:1!important;visibility:visible!important;transform:none!important}
+}

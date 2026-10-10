@@ -1,0 +1,20 @@
+.km-stage{position:absolute;left:140px;top:310px;width:1048px;height:614px;font-family:var(--sans);cursor:default}
+.km-stage *{box-sizing:border-box}
+.km-stage button:focus-visible{outline:2px solid #707887;outline-offset:5px}
+.km-sheet{z-index:2;position:absolute;top:0;left:86px;width:420px;height:580px;transform:rotate(-5deg);transform-origin:50% 50%;background:white;box-shadow:0 14px 35px #00000012;cursor:zoom-in;overflow:hidden}
+.km-sheet:nth-of-type(3){left:541px;top:0;transform:rotate(5deg);z-index:1}
+.km-scroll{width:100%;height:100%;overflow:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#bbb transparent}
+.km-scroll img{display:block;width:100%;height:auto;user-select:none}
+.km-sheet.is-open{cursor:default;z-index:4!important}
+.km-sheet.is-open .km-scroll{overflow-y:auto;overflow-x:hidden}
+.km-controls{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;visibility:hidden}
+.km-controls button{pointer-events:auto;border:0;background:#fff;color:#333;box-shadow:0 2px 10px #00000009;border-radius:50%;width:36px;height:36px;cursor:pointer;font:22px/1 Arial}
+.km-close{position:absolute;right:0;top:-42px}
+@media(prefers-reduced-motion:reduce){.km-stage *{scroll-behavior:auto!important}}
+
+.km-lettering{position:absolute;inset:0;pointer-events:none;user-select:none;color:rgb(0 0 0 / 5.5%);font:700 106px/.9 var(--sans);letter-spacing:-.04em}
+/* D: shared size, original corner anchors, two thirds of each word block exposed. */
+.km-lettering span{position:absolute;display:block;white-space:nowrap;transform-origin:0 0;font-size:79.94px}
+.km-lettering span:first-child{left:61.524px;top:19.407px;transform:rotate(-95deg) translate(-100%,-66.6667%)}
+.km-lettering span:last-child{left:934.924px;top:597.2px;transform:rotate(95deg) translate(-100%,-66.6667%)}
+.km-scroll img{max-width:100%;height:auto}

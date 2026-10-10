@@ -1,0 +1,51 @@
+/* Isolated type trial. Base units match the site's 1200px canvas;
+   compensate the fixed writing canvas scale, never the viewport scale. */
+.MktRoot { --enterprise-type-unit: 1.211678832116788; }
+.Copy__title {
+  font-size: calc(28px * var(--enterprise-type-unit));
+  font-weight: 600;
+  color: #171717;
+}
+.NewsroomIndexPost__date.BlogPostDate,
+.NewsroomIndexPost__date .BlogPostDate__link.Link {
+  font-size: calc(16.8px * var(--enterprise-type-unit));
+  font-weight: 500;
+  color: #444;
+}
+html[lang^=ja] .NewsroomIndexPost__category,
+html[lang^=ja] .NewsroomIndexPost__category .Link {
+  font-weight: 500;
+  font-variation-settings: normal;
+}
+html[lang^=ja] .NewsroomIndexPost__title.CopyTitle,
+html[lang^=ja] .NewsroomIndexPost__title.CopyTitle .Link {
+  font-size: calc(16.8px * var(--enterprise-type-unit));
+  font-weight: 400;
+  font-variation-settings: normal;
+  color: #444;
+}
+.NewsroomIndexPost__title .enterprise-claim { font-weight: 500; }
+.NewsroomIndexPost__title .enterprise-method { font-weight: 400; }
+html.MktRoot[lang^=ja] .Copy__footer .CtaButton {
+  font-size: calc(15px * var(--enterprise-type-unit));
+  font-weight: 500;
+  font-variation-settings: normal;
+}
+
+/* Reverse the original body-link emphasis: quiet at rest, dark on intent. */
+html[lang^=ja] .NewsroomIndexPost__title.CopyTitle .Link {
+  --linkOpacity: 0.6;
+  --linkHoverOpacity: 1;
+}
+html[lang^=ja] .NewsroomIndexPost__title.CopyTitle .Link:focus-visible {
+  opacity: 1;
+}
+
+/* Preserve the original row rhythm with the shallower article covers. */
+.NewsroomArticleList__layout.RowLayout {
+  --rowLayoutGap: 24px;
+}
+.NewsroomArticleList__layout .NewsroomIndexPost {
+  min-height: 119px;
+  align-items: start;
+}

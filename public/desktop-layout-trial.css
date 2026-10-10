@@ -1,0 +1,19 @@
+/* Isolated desktop candidate. Original entry and shared assets remain unchanged. */
+.fixed-nav{background:rgba(255,255,255,.94);border-bottom:1px solid rgba(0,0,0,.08)}
+html[data-nav-color="refined"] .fixed-nav{background:var(--nav-surface);border-bottom-color:var(--nav-line)}
+.fixed-nav .iso-navigation{left:50%;transform:translateX(-50%) scale(var(--page-scale));transform-origin:top center}
+.fixed-nav .iso-navbar{background:transparent;border-bottom:0}
+.c2-compare-summary{padding-top:20px;padding-bottom:20px}
+.c2-compare-project{margin-bottom:6px}
+.c2-compare-summary h3{margin-bottom:8px}
+.c2-takeaway{margin-bottom:12px}
+
+/* Extend only the photo's blue backdrop; foreground stays on the approved artboard. */
+.artboard .stage{overflow:visible}
+.artboard .portrait{left:var(--hero-background-offset);right:auto;width:var(--hero-background-width)}
+.xy-corner-variant .amway-full-copy .xy-strategy-point p{display:block;min-width:0;width:100%;margin:0;padding:0;text-indent:0;text-align:justify;text-justify:inter-character;word-break:normal;overflow-wrap:normal;line-break:strict}
+.amway-keep-word{white-space:nowrap}
+
+/* Blur the whole header, without an inner artboard boundary. */
+.fixed-nav{backdrop-filter:blur(42px);-webkit-backdrop-filter:blur(42px)}
+.fixed-nav .iso-navbar{backdrop-filter:none;-webkit-backdrop-filter:none}

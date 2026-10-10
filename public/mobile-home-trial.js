@@ -1,0 +1,1 @@
+(()=>{function size(){document.documentElement.style.setProperty('--home-mobile-scale',document.documentElement.clientWidth/1740);if(innerWidth<=760)document.querySelector('.artboard').dataset.scale=String(document.documentElement.clientWidth/1740)}size();window.addEventListener('resize',size);document.fonts.ready.then(size)})();

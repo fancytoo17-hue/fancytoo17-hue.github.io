@@ -1,0 +1,23 @@
+/* Only the three not-yet-authored detail scenes. Their overview assets stay intact. */
+.writing-reference .scene-detail[aria-hidden="false"] { pointer-events: auto; }
+.writing-reference .scene-detail-header {
+  position: absolute !important;
+  left: 140px !important;
+  top: 128px !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 1048px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 4px !important;
+  grid-template-columns: minmax(0,1fr) !important;
+  align-content: start !important;
+}
+.writing-reference .writing-detail .scene-detail-art {
+  top: 340px !important;
+  right: auto !important;
+  bottom: auto !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+.writing-reference .scene-moving-art { pointer-events: none !important; }

@@ -1,0 +1,8 @@
+.xy-strategy-reading{padding:4px 0 0}
+.xy-strategy-heading{margin:0 0 26px;color:#171717;font:600 24px/1.5 var(--sans)}
+.xy-strategy-points{display:grid;gap:24px}
+.xy-strategy-point{display:block}
+.xy-strategy-point h5{margin:0 0 7px;color:#222;font:600 18px/1.5 var(--sans)}
+.xy-strategy-point p{margin:0;color:#626262;font:400 16.8px/1.8 var(--sans)}
+.xy-skill-tags{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:28px 0 0}
+.xy-skill-tags li{background:#f2f2f2;color:#626262;border-radius:8px;padding:11px 24px;font:400 16px/1.5 var(--sans)}

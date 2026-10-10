@@ -1,0 +1,34 @@
+.c2-compare-card{border:1px solid #e2e2e2;border-radius:24px;overflow:hidden;background:#fff;margin:0 0 36px}
+.c2-compare-card:last-child{margin-bottom:0}
+.c2-comparison .c2-compare-cover{position:relative;inset:auto;height:540px;box-shadow:none;background:#eee5d5}
+.c2-comparison .ikea-cover{background:#d9e5e0}
+.c2-comparison .c2-sheet-grid{width:1032px;grid-template-columns:repeat(3,336px);grid-auto-rows:189px;gap:12px;transform:translate(-50%,-50%)}
+.c2-comparison .c2-compare-cover{height:621px}
+.c2-comparison .c2-sheet-grid img{height:100%;aspect-ratio:auto}
+.c2-comparison .c2-sheet-grid img:first-child{grid-column:span 2;grid-row:span 2}
+.c2-compare-summary{position:relative;display:block;list-style:none;padding:28px 92px 28px 36px;cursor:pointer;color:#191919;background:#fff;transition:background-color .2s ease}
+.c2-compare-summary::-webkit-details-marker{display:none}
+.c2-compare-summary:hover{background:#f6f8fa}
+.c2-compare-summary:focus-visible{outline:3px solid #29415b;outline-offset:-6px}
+.c2-compare-project{display:block;font:400 13px/1.6 var(--sans);color:#626262;margin-bottom:10px}
+.c2-compare-summary h3{font:600 28px/1.5 var(--serif);letter-spacing:0;margin:0 0 10px;text-wrap:balance}
+.c2-compare-prompt{display:block;font:400 15px/1.6 var(--sans);color:#626262}
+.c2-compare-chevron{position:absolute;right:36px;top:50%;width:28px;height:28px;transform:translateY(-50%);stroke-width:1.5;transition:transform .2s ease}
+.c2-compare-details[open] .c2-compare-chevron{transform:translateY(-50%) rotate(180deg)}
+.c2-takeaway{font:400 18px/1.7 var(--sans);color:#626262;margin:0 0 16px;max-width:49em}
+.c2-compare-prose{border-top:1px solid #e6e6e6;padding:30px 36px 36px}
+.c2-compare-prose p{font:400 18px/1.9 var(--sans);color:#434343;max-width:48em;margin:0 0 22px}
+.c2-compare-prose p:last-child{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){.c2-compare-summary,.c2-compare-chevron{transition:none}}
+
+/* Selected layout: explicit outlined disclosure affordance. */
+.c2-comparison .c2-compare-prompt{display:inline-flex;align-items:center;min-height:44px;padding:9px 20px;border:1px solid #aaa;border-radius:999px;color:#333;background:#fff;transition:background-color .2s ease,border-color .2s ease}
+.c2-comparison .c2-compare-prompt:hover,.c2-comparison .c2-compare-summary:focus-visible .c2-compare-prompt{background:#f2f2f2;border-color:#666}
+
+/* Interaction: quiet text area; only disclosure control responds to hover. */
+.c2-comparison .c2-compare-summary:hover{background:#fff}
+.c2-comparison .c2-compare-prose{padding:32px 36px 36px;text-align:left}
+.c2-comparison .c2-compare-prose p{width:100%;max-width:48em;margin:0 auto 22px;white-space:normal;word-break:normal;overflow-wrap:break-word}
+.c2-comparison .c2-compare-prose p:last-child{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){.c2-comparison .c2-compare-prompt{transition:none}}
+#ikea-case{scroll-margin-top:calc(var(--scaled-nav) + 16px)}

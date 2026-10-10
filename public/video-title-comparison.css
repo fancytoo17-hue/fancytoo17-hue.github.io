@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Portfolio Carousel Serif';
+  src: url('hero-assets/noto-serif-carousel-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* Shared carousel typography for the selected chapter detail design. */
+.writing-reference .scene-detail-header.is-islands-title {
+  gap: 0 !important;
+}
+.islands-title {
+  margin: 0;
+  font: 400 calc(36px * var(--reference-type-unit))/1 'Portfolio Carousel Serif', var(--serif);
+  letter-spacing: -.04em;
+  color: #070707;
+}
+/* Increase row pitch while keeping the first line's glyph position unchanged. */
+.islands-title-row { position: relative; height: 1.3em; white-space: nowrap; }
+.islands-title-row:first-child { color: #a2a2a9; }
+.islands-title-layer { position: absolute; top: 0; left: 0; }
+.islands-title-word, .islands-title-char { display: inline-block; }
+.islands-title-char { transform-origin: 0 0; }
+/* Spread the carousel variant through tilt, keeping full-size frames and corner contact.
+   The first rotated top-left corner sits at the header's x=140 canvas coordinate. */
+#video-motion-detail:has(.is-islands-title) .video-film:nth-of-type(1) { --film-x:14.59px; --film-angle:-4deg; }
+#video-motion-detail:has(.is-islands-title) .video-film:nth-of-type(2) { --film-x:274.26px; --film-angle:2.7deg; }
+#video-motion-detail:has(.is-islands-title) .video-film:nth-of-type(3) { --film-x:527.78px; --film-angle:-2.3deg; }
+#video-motion-detail:has(.is-islands-title) .video-film:nth-of-type(4) { --film-x:786.04px; --film-angle:4deg; }
+
+/* Dynamic scene headings: fill missing glyphs at the existing 400 weight. */
+@font-face{font-family:'Portfolio Carousel Serif';font-weight:400;font-style:normal;font-display:swap;src:url('hero-assets/noto-serif-carousel-supplement-400.woff2') format('woff2');unicode-range:U+37,U+63,U+64,U+65,U+67,U+6B,U+6C,U+6E,U+6F,U+72,U+74,U+75,U+77,U+B7,U+4E07,U+4E13,U+4E24,U+4E2D,U+4E3B,U+4E8B,U+4E8E,U+4EBA,U+4EE3,U+4EEC,U+4F17,U+4F9B,U+5143,U+5173,U+51B2,U+51C6,U+520A,U+5224,U+522B,U+5230,U+5316,U+54C1,U+56DE,U+56FD,U+591A,U+5B9E,U+5BA3,U+5BB6,U+5C06,U+5E94,U+5F53,U+5F71,U+60C5,U+6211,U+624B,U+62BD,U+6349,U+6355,U+6545,U+65AD,U+65E7,U+671F,U+680F,U+6821,U+6B21,U+6D3B,U+70B9,U+70ED,U+7167,U+7269,U+7528,U+7535,U+7684,U+771F,U+7A3F,U+7A81,U+7BA1,U+7EA7,U+7EEA,U+7FFB,U+8054,U+89C1,U+89C2,U+8BAE,U+8BBF,U+8BC6,U+8BD1,U+8C61,U+8F6C,U+8F7D,U+90E8,U+91C7,U+95E8;}

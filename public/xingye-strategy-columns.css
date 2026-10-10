@@ -1,0 +1,6 @@
+/* Three-column trial within the existing uniformly scaled case canvas. */
+.xy-strategy-heading{font-size:20px;font-weight:500;margin-bottom:24px}
+.xy-strategy-points{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;align-items:start}
+.xy-strategy-point{min-width:0}
+.xy-strategy-point h5{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:9px}
+.xy-strategy-point p{font-size:16px;line-height:1.8}

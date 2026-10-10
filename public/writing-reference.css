@@ -1,0 +1,87 @@
+/* Static Isomeet reference at its measured 1328 × 1072 size.
+   Uniformly fit to the existing 1096px chapter content width; no reflow. */
+.writing-study .c2-heading{margin-bottom:64px}
+.writing-reference{position:relative;width:1096px;height:884.723px}
+.writing-reference-canvas{width:1328px;height:1072px;transform:scale(.8253012048192771);transform-origin:top left}
+
+/* Reference text colors and diffused image backgrounds. */
+.writing-reference .features-item-header-w,.writing-reference .tab-button{color:rgba(0,0,0,.4)}
+.writing-reference .h3,.writing-reference .tab-button.w--current{color:#000}
+.writing-reference .f-card-bg-img{filter:blur(100px)}
+
+/* Match the site's 28px case / 16.8px body / 15px control hierarchy.
+   Compensate only for the nested reference scaling, not the page scale. */
+.writing-reference{--reference-type-unit:1.211678832116788}
+.writing-reference .features-item-header-w{height:auto!important}
+.writing-reference .features-item-header-w > *{width:auto!important;height:auto!important;max-width:100%!important}
+.writing-reference .h3{font-family:'Portfolio Case Serif',var(--serif)!important;font-size:calc(28px * var(--reference-type-unit))!important;font-weight:600!important;line-height:1.5!important;letter-spacing:calc(-.4px * var(--reference-type-unit))!important}
+.writing-reference .features-item-header-w > div{font-family:var(--sans)!important;font-size:calc(16.8px * var(--reference-type-unit))!important;font-weight:400!important;line-height:1.8!important;letter-spacing:0!important;color:#626262}
+.writing-reference .tab-button,.writing-reference .tab-button > div{font-family:var(--sans)!important;font-size:calc(15px * var(--reference-type-unit))!important;font-weight:500!important;line-height:1.5!important;letter-spacing:0!important}
+.writing-reference .tab-button > div{width:auto!important;height:auto!important;white-space:nowrap!important}
+
+/* Five section labels; retain the reference pill shape and selected surface. */
+.writing-reference .tabs-menu{width:max-content!important;max-width:100%!important}
+.writing-reference .tab-button{width:auto!important;min-width:116px!important;white-space:nowrap!important}
+.writing-reference .tabs-menu{margin-left:auto!important;margin-right:auto!important}
+
+/* First-module motion probe. Contents keep their dimensions while shells resize. */
+.writing-reference.is-interactive .tab-main-grid{position:relative!important;display:block!important;overflow:hidden!important}
+.writing-reference.is-interactive .features-card{position:absolute!important;min-width:0!important;min-height:0!important;padding:0!important}
+.writing-card-content{position:absolute;left:0;top:0;box-sizing:border-box;padding:40px 48px;pointer-events:none}
+.writing-reference .writing-detail{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none}
+.writing-reference .writing-detail.is-visible{visibility:visible}
+.writing-reference .writing-detail .features-item-bg-w{left:auto!important;right:48px!important;top:auto!important;bottom:48px!important}
+.writing-reference .tab-button{border:0;cursor:pointer!important}
+.writing-reference .tab-button[aria-disabled=true]{cursor:default!important}
+.writing-reference .tab-button[aria-pressed=false]{background:transparent!important;box-shadow:none!important;color:rgba(0,0,0,.4)}
+.writing-reference .tab-button[aria-pressed=true]{background:#fff!important;color:#000;box-shadow:0 1px 1px #00000014,0 2px 4px #0000001f,0 0 0 .5px #0000000a!important}
+.writing-reference .features-card[role=button]{cursor:pointer}
+.writing-reference .tab-button:focus-visible,.writing-reference .features-card:focus-visible{outline:2px solid #29415b!important;outline-offset:-4px}
+.writing-reference .bottom-left-header > .writing-card-content{display:flex;flex-direction:column;justify-content:flex-end}
+
+/* Let the approved two-line introductions determine their own row height. */
+.writing-reference .features-item-header-w{grid-template-rows:auto auto!important}
+
+/* Reversible phone treatment: retain the existing tilted foreground anchor. */
+.video-phone-frame{display:contents}
+/* Diagonal knowledge-card frame; preserve the original offset backing composition. */
+.has-video-phone .video-phone-frame{display:block;position:relative;z-index:10;width:342px;max-width:100%;box-sizing:border-box;padding:7px;border:0;border-radius:42.303px 42.303px 0 0;background:linear-gradient(140deg,#eef0f2 0%,#e4e8eb 38%,#ebedef 72%,#e0e5e9 100%);box-shadow:inset 0 1px 1px #f4f5f580}
+.has-video-phone .video-phone-frame::before{content:"";position:absolute;inset:0;z-index:0;box-sizing:border-box;padding:7px;border-radius:42.303px 42.303px 0 0;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;background:url("assets/isomeet-features/reference-05.avif") top center / 100% auto no-repeat;pointer-events:none}
+.has-video-phone .video-phone-frame .f-card-2-img-1{display:block!important;width:100%!important;height:auto!important;border-radius:35.303px 35.303px 0 0!important;box-shadow:0 0 0 .5px #8a969e2b!important}
+.has-video-phone .writing-reference .f-card-2-div{background-image:linear-gradient(170deg,#606976 0%,#60697600 100%)!important;opacity:.28!important;filter:blur(2px)}
+.phone-review-controls{display:flex;align-items:center;gap:6px;border-left:1px solid #dde1e6;margin-left:4px;padding-left:8px}
+@media(max-width:600px){.palette-review{flex-wrap:wrap;max-width:calc(100vw - 44px)}.phone-review-controls{border-left:0;margin-left:0;padding-left:0}}
+
+/* Keep the original handset silhouette; replace only its display contents. */
+.enterprise-phone-shell{display:block;width:100%;height:100%}
+.enterprise-phone-screen{position:absolute;left:4.53%;right:4.53%;top:4.65%;bottom:0;overflow:hidden;border-radius:54px 54px 0 0;background:#ededed}
+.enterprise-phone-screen img{display:block;width:100%;height:auto}
+
+/* Bottom-aligned article screenshot inside the existing rear handset. */
+.culture-phone-shell{display:block;width:100%;height:100%}
+.culture-phone-screen{position:absolute;left:4.53%;right:4.53%;top:0;bottom:3.88%;overflow:hidden;border-radius:0 0 50px 50px;background:#fff}
+.culture-phone-screen img{position:absolute;left:0;bottom:0;display:block;width:100%;height:auto}
+
+/* Hide only the baked-in pink reaction badge; restore the white card beneath. */
+.culture-review-surface{position:absolute;left:0;top:0;width:89.19%;height:91.74%;border-radius:25px;background:#fff}
+.culture-review-art{position:relative;display:block;width:100%;height:100%;clip-path:polygon(0 0,100% 0,100% 72.6%,69.2% 72.6%,69.2% 100%,0 100%)}
+
+/* Match the visible white review card, excluding the former reaction badge area. */
+.culture-article-cover{position:absolute;left:0;top:0;display:block;width:auto;max-width:none;height:91.74%;aspect-ratio:1069 / 653;border-radius:25px;object-fit:contain;background:#fff}
+
+/* Paper presentation keeps the rear image's existing 310 × 360 geometry. */
+.writing-reference .knowledge-paper{background:#fff!important;border-radius:2px!important;box-shadow:0 12px 28px #2733401a,0 2px 3px #27334012!important}
+.knowledge-paper-content{position:absolute;inset:0;padding:27px 28px;box-sizing:border-box;text-align:left;border:1px solid #e8e7e2;border-radius:2px;font-family:var(--sans);color:#343a40}
+.knowledge-paper-label{margin:0;font-size:10px;letter-spacing:1px;color:#777c80}
+.knowledge-paper-title{margin:11px 0 6px;font-family:'Portfolio Case Serif',var(--serif);font-weight:600;font-size:25px;line-height:1.5}
+.knowledge-paper-note{margin:0 0 22px;font-size:9px;color:#8c9092}
+.knowledge-paper-lines{display:grid;gap:7px;margin-bottom:18px}
+.knowledge-paper-lines span{height:2px;background:#d6d6d0}
+.knowledge-paper-lines span:last-child{width:68%}
+
+.knowledge-paper-page{display:block;width:100%;height:auto;background:#fff}
+
+/* De-emphasize the source author while keeping the translator line unchanged. */
+.knowledge-credit-card img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.knowledge-credit-author{clip-path:inset(0 0 50% 0);opacity:.42}
+.knowledge-credit-translator{clip-path:inset(50% 0 0 0)}

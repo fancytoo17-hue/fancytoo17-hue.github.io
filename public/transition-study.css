@@ -1,0 +1,43 @@
+html{background:#fff;scroll-behavior:smooth}body{display:block;background:#fff}.hero-band{background:#18283b}.viewport-fit{margin:0 auto}.fixed-nav{position:fixed;top:0;left:50%;z-index:2000;transform:translateX(-50%);height:var(--scaled-nav)}.fixed-nav .iso-navigation{position:absolute;width:1740px;transform:scale(var(--page-scale));transform-origin:top left}.iso-navbar,.iso-navigation,.iso-link,.iso-button,.iso-divider,.portfolio-name>span{transition:background-color .32s ease,color .32s ease,border-color .32s ease,outline-color .32s ease}.overview{background:#fff;color:#17191c;min-height:100vh;padding:calc(135px * var(--page-scale)) 0 calc(200px * var(--page-scale));}.overview-inner{width:var(--page-width);margin:auto;padding:0 calc(80.04px * var(--page-scale))}.overview-heading p{font-size:calc(14px * var(--page-scale));letter-spacing:.12em;color:#85898f;margin:0 0 calc(24px * var(--page-scale))}.overview h2{font:500 calc(64px * var(--page-scale))/1.35 var(--serif);margin:0 0 calc(90px * var(--page-scale))}.chapters{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(28px * var(--page-scale))}.chapter{border:1px solid #e6e6e6;border-radius:calc(28px * var(--page-scale));min-height:calc(255px * var(--page-scale));padding:calc(40px * var(--page-scale));scroll-margin-top:calc(110px * var(--page-scale))}.chapter-number{font-size:calc(16px * var(--page-scale));color:#92979c}.chapter h3{font-size:calc(30px * var(--page-scale));font-weight:500;margin:calc(65px * var(--page-scale)) 0 0}.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}.chapter:nth-child(2){transition-delay:.08s}.chapter:nth-child(3){transition-delay:.16s}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}*{transition:none!important}}
+
+/* NAV-SIZE-01: authored dimensions; retain uniform page scaling. */
+.fixed-nav .iso-navbar{padding:0 80.04px}
+.fixed-nav .iso-container{max-width:none;height:101px;padding:0}
+.fixed-nav .iso-left,.fixed-nav .iso-links{gap:44px}
+.fixed-nav .iso-navigation .iso-link{font-size:22px;line-height:33px;padding:6px 0}
+.fixed-nav .iso-button{font-size:22px;line-height:26.4px;padding:14px 22px}
+.fixed-nav .iso-divider{height:33px}
+.fixed-nav .portfolio-logo{gap:23px}
+.fixed-nav .portfolio-mark{font-size:38px}
+.fixed-nav .portfolio-name{font-size:20px}
+.fixed-nav .portfolio-name>span{font-size:11px;letter-spacing:2.5px}
+
+/* HERO-CONTACT-01: restore reference outline pill, visual placeholder only. */
+.profile-tags li:nth-child(4){grid-column:1}
+.profile-tags li.contact-outline-item{grid-column:2 / span 2;padding:0;background:none;justify-self:start}
+.contact-outline{display:flex;align-items:center;justify-content:center;gap:14px;width:max-content;height:40.95px;padding:8px 20px;border:1px solid rgba(249,250,249,.85);border-radius:999px;background:transparent;color:#f9faf9;font:400 17px/1.35 'ISO Instrument Sans',Arial,sans-serif;white-space:nowrap;cursor:default}
+.contact-address{text-decoration:underline;text-underline-offset:2px}
+.contact-outline svg{width:16px;height:16px;flex:none;stroke-width:1.6}
+
+.contact-caption{display:inline-flex;align-items:center;gap:6px}.contact-outline .contact-globe{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6}
+
+@font-face{font-family:'Instrument Serif';src:url('nav-assets/instrument-serif-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+.overview-clone{position:relative;width:var(--page-width);height:var(--overview-height, calc(904px * var(--page-scale)));min-height:100vh;margin:auto;background:white;overflow:visible}
+.overview-reference{width:1200px;transform:scale(calc(var(--page-scale) * 1.45));transform-origin:top left}
+.overview-reference svg{fill:none;stroke:none;stroke-width:initial;stroke-linecap:initial;stroke-linejoin:initial}
+
+/* OVERVIEW-ANCHOR-01: temporary overview targets until real chapters exist. */
+.overview-reference .benefit-card{scroll-margin-top:calc(var(--scaled-nav) + 16px)}
+
+/* Confirmed overview introduction; Chinese copy layout preview. */
+.overview-reference .h2-block > .h2{font-family:var(--sans)!important;font-size:36px!important;line-height:1.5!important;letter-spacing:-.6px!important;min-height:0!important}
+.overview-reference .h2-block .h-subheader{font-family:var(--sans)!important;line-height:1.8!important;letter-spacing:0!important}
+.overview-reference .h-subheader p{margin:0}
+.overview-reference .h-subheader p+p{margin-top:14px}
+
+/* OVERVIEW-COPY-02: use the complete right column for the confirmed copy. */
+.overview-reference .h2-subheader-w{width:100%!important;max-width:none!important}
+
+/* Use the homepage serif face for section-level headings. */
+@font-face{font-family:'Portfolio Section Serif';font-style:normal;font-weight:600;src:url('hero-assets/noto-serif-section-headings.ttf') format('truetype');font-display:swap}
+.overview-reference .h2-block .overview-title-group > .h2{font-family:'Portfolio Section Serif',var(--serif)!important;font-weight:600!important}

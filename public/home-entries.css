@@ -1,0 +1,21 @@
+/* Approved homepage chapter entries; dimensions use the existing 1740px artboard. */
+.hero-entries{grid-template-columns:repeat(3,max-content);gap:24px 14px;margin-top:48px;font-size:30px;line-height:1.4}
+.hero-entries li{padding:0;background:none}
+.hero-entry{display:flex;align-items:center;justify-content:center;gap:8px;height:74px;padding:15px 25px;border:1px solid #f9faf9;border-radius:999px;background:#f9faf9;color:#263a4d;font-weight:500;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.hero-entry .hero-entry-arrow{width:25px;height:25px;stroke-width:1.7;transition:transform .2s ease}
+.hero-entry:hover,.hero-entry:focus-visible{background:#c9e4ff;border-color:#c9e4ff;color:#163b60}
+.hero-entry:hover .hero-entry-arrow,.hero-entry:focus-visible .hero-entry-arrow{transform:translate(3px,-3px)}
+.hero-entry:focus-visible{outline:3px solid #f9faf9;outline-offset:5px}
+.hero-entries li.contact-outline-item{grid-column:1 / -1;justify-self:start;margin-top:2px}
+.hero-entries .contact-outline{height:64px;min-width:380px;padding:12px 23px;font:400 26px/1.4 var(--sans);gap:16px;cursor:pointer;transition:background-color .2s ease,border-color .2s ease}
+.hero-entries .contact-outline:hover,.hero-entries .contact-outline:focus-visible{background:rgba(249,250,249,.12);border-color:#f9faf9}
+.hero-entries .contact-outline svg{width:20px;height:20px}
+.hero-entries .contact-caption{gap:10px}
+@media(prefers-reduced-motion:reduce){.hero-entry,.hero-entry .hero-entry-arrow,.hero-entries .contact-outline{transition:none}.hero-entry:hover .hero-entry-arrow,.hero-entry:focus-visible .hero-entry-arrow{transform:none}}
+
+/* Rebalance the group after reducing contact height by 10px. */
+.hero-copy{top:332.21px}
+
+/* Keep chapter navigation available beyond the opening portrait. */
+.fixed-nav .iso-links,.fixed-nav .iso-divider{visibility:hidden;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.fixed-nav.is-past-hero .iso-links,.fixed-nav.is-past-hero .iso-divider{visibility:visible;opacity:1;pointer-events:auto}

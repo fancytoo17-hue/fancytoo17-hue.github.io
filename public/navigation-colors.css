@@ -1,0 +1,15 @@
+/* NAV-COLOR-01: color-only alternatives; original stays default until selected. */
+html[data-nav-color="deep"]{--nav-surface:rgba(28,47,67,.85);--nav-strong:#f4f6f8;--nav-muted:#b6c3d0;--nav-line:rgba(224,235,246,.18);--nav-button-line:rgba(224,235,246,.35);--nav-hover:rgba(224,235,246,.09);--nav-pressed:rgba(224,235,246,.16)}
+html[data-nav-color="mist"]{--nav-surface:rgba(207,222,235,.85);--nav-strong:#24394d;--nav-muted:#546b7f;--nav-line:rgba(36,57,77,.16);--nav-button-line:rgba(36,57,77,.28);--nav-hover:rgba(36,57,77,.06);--nav-pressed:rgba(36,57,77,.12)}
+[data-nav-color] .iso-navigation{color:var(--nav-strong)}
+[data-nav-color] .iso-navbar{background:var(--nav-surface);border-bottom-color:var(--nav-line)}
+[data-nav-color] .portfolio-name>span,[data-nav-color] .iso-navigation .iso-link{color:var(--nav-muted)}
+[data-nav-color] .iso-divider{background:var(--nav-line)}
+[data-nav-color] .iso-navigation .iso-link:hover,[data-nav-color] .iso-navigation .iso-link.is-current{color:var(--nav-strong);border-bottom-color:var(--nav-button-line)}
+[data-nav-color] .iso-button{color:var(--nav-strong);outline-color:var(--nav-button-line)}
+[data-nav-color] .iso-button:hover{background:var(--nav-hover);outline-color:var(--nav-button-line)}
+[data-nav-color] .iso-button:active{background:var(--nav-pressed);outline-color:var(--nav-button-line)}
+[data-nav-color] .iso-navigation :focus-visible{outline-color:var(--nav-strong)}
+
+/* NAV-COLOR-02: lighter tint, quieter secondary text and outlines. */
+html[data-nav-color="refined"]{--nav-surface:rgba(28,47,67,.32);--nav-strong:#f4f6f8;--nav-muted:rgba(244,246,248,.62);--nav-line:rgba(224,235,246,.09);--nav-button-line:rgba(224,235,246,.16);--nav-hover:rgba(224,235,246,.06);--nav-pressed:rgba(224,235,246,.11)}

@@ -1,0 +1,14 @@
+.xy-strategy-point h5{color:#0762ad}
+.xy-corner-variant .xy-strategy-point h5{color:#222}
+.xy-keyphrase{color:#0762ad;font-weight:400}
+.xy-title-accent{display:inline-block;position:relative;padding:5px 10px}
+.xy-strategy-point h5{margin-left:-10px;margin-top:-5px}
+.xy-title-corners{display:none;position:absolute;inset:0;pointer-events:none;color:#b4bacd;transition:inset .22s ease,color .22s ease}
+.xy-corner-variant .xy-title-corners{display:block}
+.xy-title-corners i{position:absolute;width:6px;height:6px;border:0 solid currentColor}
+.xy-title-corners i:nth-child(1){top:0;left:0;border-top-width:2px;border-left-width:2px}
+.xy-title-corners i:nth-child(2){top:0;right:0;border-top-width:2px;border-right-width:2px}
+.xy-title-corners i:nth-child(3){bottom:0;left:0;border-bottom-width:2px;border-left-width:2px}
+.xy-title-corners i:nth-child(4){bottom:0;right:0;border-bottom-width:2px;border-right-width:2px}
+.xy-title-accent:hover .xy-title-corners{inset:-2px;color:#8e95ad}
+@media(prefers-reduced-motion:reduce){.xy-title-corners{transition:none}}

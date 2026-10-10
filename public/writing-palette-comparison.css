@@ -1,0 +1,15 @@
+/* Approved palette trial: blue on the two large cards, gray on the small ones. */
+.writing-reference .features-card:first-child,
+.writing-reference .features-card.bottom-left-header{
+  background-color:#edf3f9!important;
+  background-image:linear-gradient(145deg,#f5f8fc 0%,#e9f1f9 55%,#dce8f5 100%)!important;
+}
+.writing-reference .features-card.violet-card,
+.writing-reference .features-card.green-card{
+  background-color:#f1f1f1!important;
+  background-image:linear-gradient(155deg,#f7f7f7 0%,#ededed 100%)!important;
+}
+.writing-reference .f-card-2-div{
+  background-image:linear-gradient(#555,#99999900)!important;
+  opacity:.16!important;
+}

@@ -1,0 +1,37 @@
+.xy-corner-variant .xy-strategy-point{align-items:start}
+.xy-corner-variant .xy-strategy-point h5{margin-top:0;line-height:1.5}
+.xy-corner-variant .xy-title-accent{display:inline-block;color:#626262;transition:color .2s ease}
+.xy-corner-variant .xy-title-accent .xy-title-corners{inset:0;color:#d8dbe3}
+.xy-corner-variant .xy-strategy-point:hover .xy-title-accent{color:#222}
+.xy-corner-variant .xy-strategy-point:hover .xy-title-accent .xy-title-corners{inset:-2px;color:#0762ad}
+.xy-corner-variant .xy-strategy-point p{text-wrap:wrap;max-width:none;width:100%}
+.xy-corner-variant .xy-keyphrase,.c2-compare-prose .xy-keyphrase{color:inherit;transition:color .2s ease}
+.xy-corner-variant .xy-strategy-point:hover .xy-keyphrase,.c2-compare-prose p:hover .xy-keyphrase{color:#0762ad}
+@media(prefers-reduced-motion:reduce){.xy-corner-variant .xy-title-accent,.xy-corner-variant .xy-title-corners,.xy-corner-variant .xy-keyphrase,.c2-compare-prose .xy-keyphrase{transition:none}}
+
+/* Keep breathing room after the final tags, inside the collapsing content. */
+.xy-corner-variant .xy-strategy-reading{padding-bottom:34px}
+
+/* Reference-style inset depth, adapted to the neutral palette. */
+.xy-corner-variant .xy-skill-tags li{font-size:18px;box-shadow:inset 0 2px 4px #d7d7d7}
+
+/* Group the strategy summary, explanation and concluding tags. */
+.xy-corner-variant .xy-strategy-heading{font-size:22px;font-weight:500;color:#333333;margin-bottom:18px}
+.xy-corner-variant .xy-skill-tags{margin-top:28px}
+
+
+
+.xy-corner-variant .xy-case .jr-toggle{isolation:isolate;overflow:hidden;background:#fff;color:#444;font-weight:500;gap:14px;border-top-color:#e5e7eb;box-shadow:inset 0 1px 0 #fff;transition:color .25s ease}
+.xy-corner-variant .xy-case .jr-toggle::before,.xy-corner-variant .xy-case .jr-toggle::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;transition:opacity .3s ease}
+.xy-corner-variant .xy-case .jr-toggle::before{background:radial-gradient(ellipse 32% 85% at 22% -20%,rgba(150,150,150,.14),transparent 100%),radial-gradient(ellipse 30% 85% at 63% -25%,rgba(170,170,170,.11),transparent 100%);opacity:1}
+.xy-corner-variant .xy-case .jr-toggle::after{background:radial-gradient(ellipse 32% 85% at 22% -20%,rgba(143,150,192,.09),transparent 100%),radial-gradient(ellipse 30% 85% at 63% -25%,rgba(112,186,179,.07),transparent 100%);opacity:0}
+.xy-corner-variant .xy-case .jr-toggle[aria-expanded=true]::before{opacity:.5}
+.xy-corner-variant .xy-case .jr-toggle:is(:hover,:focus-visible){background:#f7f7f7;color:#222}
+.xy-corner-variant .xy-case .jr-toggle:is(:hover,:focus-visible)::before,.xy-corner-variant .xy-case .jr-toggle:is(:hover,:focus-visible)::after{opacity:0}
+.xy-corner-variant .xy-case .jr-toggle svg{transition:transform .25s ease}
+.xy-corner-variant .xy-case .jr-toggle[aria-expanded=false]:is(:hover,:focus-visible) svg{transform:translateY(4px) scale(1.12)}
+.xy-corner-variant .xy-case .jr-toggle[aria-expanded=true]:is(:hover,:focus-visible) svg{transform:translateY(-4px) rotate(-180deg) scale(1.12)}
+@media(prefers-reduced-motion:reduce){.xy-corner-variant .xy-case .jr-toggle,.xy-corner-variant .xy-case .jr-toggle::before,.xy-corner-variant .xy-case .jr-toggle::after,.xy-corner-variant .xy-case .jr-toggle svg{transition:none}.xy-corner-variant .xy-case .jr-toggle[aria-expanded=false]:is(:hover,:focus-visible) svg{transform:none}.xy-corner-variant .xy-case .jr-toggle[aria-expanded=true]:is(:hover,:focus-visible) svg{transform:rotate(-180deg)}}
+
+@font-face{font-family:'Portfolio Case Serif';src:url('hero-assets/noto-serif-case-600.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+.xy-corner-variant .xy-case .jr-copy h3{font-family:'Portfolio Case Serif',var(--serif);font-weight:600}
