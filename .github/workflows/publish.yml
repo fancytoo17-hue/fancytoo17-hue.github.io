@@ -55,6 +55,10 @@ jobs:
             git commit -m "Import verified portfolio public release"
             git push origin HEAD:main
           fi
+      - name: Optimize first-screen cover for delivery
+        run: |
+          python3 -m pip install 'Pillow==12.3.0'
+          python3 .github/scripts/optimize_cover.py public
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
