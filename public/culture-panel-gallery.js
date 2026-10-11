@@ -143,6 +143,9 @@
     gsap.to(frame,{x,y,width:opened,height,...timing});
     const axisX=x+opened/2;
     dragAxis.style.width=44/(stage.getBoundingClientRect().width/w||1)+'px';
+    // Keep the axis draggable above/below the photos, but never cover their links.
+    const imageTop=stage.offsetTop+y,imageBottom=imageTop+height;
+    dragAxis.style.clipPath=`polygon(0 0,100% 0,100% ${imageTop}px,0 ${imageTop}px,0 ${imageBottom}px,100% ${imageBottom}px,100% 100%,0 100%)`;
     gsap.to(dragAxis,{x:axisX,...timing});
     gsap.to(line,{x:axisX,...timing});
     positionQuote(axisX,y-quote.offsetHeight-24,axisX<=w/2,animate,timing);
@@ -195,7 +198,7 @@
   detail.addEventListener('pointermove',e=>{
     if(!gesture||gesture.id!==e.pointerId)return;
     const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;
-    if(!gesture.axis&&Math.hypot(dx,dy)>5)gesture.axis=Math.abs(dx)>Math.abs(dy)*1.1?'x':'y';
+    if(!gesture.axis&&Math.hypot(dx,dy)>10)gesture.axis=Math.abs(dx)>Math.abs(dy)*1.1?'x':'y';
     if(!gesture.axis)return;
     suppressClick=true;
     if(gesture.axis==='y')return;

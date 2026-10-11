@@ -208,6 +208,10 @@
     "sha256": "f9a092359c990b95c19f6812ff90dc26781d2a52e87949da51a741bfa3744597"
   },
   {
+    "path": "assets/resume/冯斯亮_内容策划简历.pdf",
+    "sha256": "f9a092359c990b95c19f6812ff90dc26781d2a52e87949da51a741bfa3744597"
+  },
+  {
     "path": "assets/stripe-newsroom/font-0.woff2",
     "sha256": "2228fee8f2931671a4690c35ec3a6746216f8d7fba4f51adc91f9b58a6b28f89"
   },
@@ -361,7 +365,7 @@
   },
   {
     "path": "culture-panel-gallery.js",
-    "sha256": "0f29e6d9426ac17c9a4af4dff2e17c04d00c803e12bf84effdf3c517ac8ac537"
+    "sha256": "406d9b476a4f3122c4ccef4fe32841dcb77a9c151bc00f8fc937312267cb0e8b"
   },
   {
     "path": "desktop-layout-home.js",
@@ -389,15 +393,15 @@
   },
   {
     "path": "enterprise-layout-comparison.html",
-    "sha256": "8044f2ebdd59b62b9054a662d1f0ac0e09ec2e2afdc881b9a5c828834a145443"
+    "sha256": "79c1289b17e92d56f431fbf820745c210089d6e0bbc3028413b6cdab8934c1d7"
   },
   {
     "path": "enterprise-layout-comparison.js",
-    "sha256": "f7c5c94bdc865fe40d574ffce84dd8452009413f82622389bea087e160ba2e82"
+    "sha256": "64715283dea24a4c588e53ce89687d99811ed222db994978ac84150f052d85f9"
   },
   {
     "path": "enterprise-magic-move.js",
-    "sha256": "5c83d8ec5ec4bbd94b33eb662de6196c61abc0f75bba9be260af13735b531c63"
+    "sha256": "1bd8faf7bde497dd7cc2092dfa7f1c0ed059dc84ec222b2938b55f28f00dd40e"
   },
   {
     "path": "enterprise-type-trial.css",
@@ -669,7 +673,7 @@
   },
   {
     "path": "writing-scene-details.css",
-    "sha256": "83f2ed2f05018bf100afe86325080aebc9d7fc09d72d754eef524638d0f0711d"
+    "sha256": "f8ce3d729b423d63714fd3486d49584afab6c0ce72c0f5f8c4ef8659a41c699d"
   },
   {
     "path": "xingye-case-study.css",
@@ -701,6 +705,6 @@
   },
   {
     "path": "index.html",
-    "sha256": "8044f2ebdd59b62b9054a662d1f0ac0e09ec2e2afdc881b9a5c828834a145443"
+    "sha256": "79c1289b17e92d56f431fbf820745c210089d6e0bbc3028413b6cdab8934c1d7"
   }
 ]

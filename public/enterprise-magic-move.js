@@ -158,6 +158,8 @@
     const jobs=[],cleanup=[],duration=reduce.matches?0:(next<0?580:740);
     const from=cards.map(card=>{const s=getComputedStyle(card);return Object.fromEntries(['left','top','width','height'].map(k=>[k,s[k]]))});
     animations.forEach(a=>a.cancel());animations=[];
+    // Reveal only participating scenes for measurement; keep them inert during motion.
+    details.forEach((detail,i)=>{detail.inert=true;detail.setAttribute('aria-hidden','true');if(i===old||i===next)detail.classList.add('is-visible')});
     if(old>=0){headerMotion(old,false,duration,jobs,cleanup,switching);artMotion(old,false,duration,jobs,cleanup,switching)}
     if(next>=0){headerMotion(next,true,duration,jobs,cleanup,switching);artMotion(next,true,duration,jobs,cleanup,switching)}
     active=next;

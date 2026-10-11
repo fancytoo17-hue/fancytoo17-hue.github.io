@@ -10,6 +10,12 @@
   let firstLoad = true;
   frame.addEventListener('load', () => {
     const doc = frame.contentDocument;
+    // Guard iframe links as well as parent hit-testing on mobile browsers.
+    doc?.addEventListener('click', event => {
+      if(root.dataset.view !== 'enterprise' || detail.getAttribute('aria-hidden') !== 'false'){
+        event.preventDefault();event.stopImmediatePropagation();
+      }
+    },true);
     let pointerStart = null;
     doc?.addEventListener('pointerdown', event => {
       pointerStart = { x: event.clientX, y: event.clientY };

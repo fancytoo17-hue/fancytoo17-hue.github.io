@@ -1,8 +1,13 @@
 {
-  "source_baseline": "3099f06",
+  "source_baseline": "4954e42ef8501bab0c91e4c094096aaf65003a34",
   "user_approved": true,
-  "previous_deployment": "012b320c3c5e9488c9c49d711b2c93439e121f9b",
-  "public_files": 176,
-  "delivery_optimization": "Disabled for this update; publish user-approved mobile interactions unchanged.",
-  "date": "2026-10-11"
+  "previous_deployment": "41e1f494a6528f5932f5811274484d93ea5a7312",
+  "public_files": 177,
+  "date": "2026-10-11",
+  "scope": [
+    "isolate inactive scenes and links",
+    "Chinese resume filename with legacy URL compatibility",
+    "culture image link and axis hit target separation"
+  ],
+  "delivery_optimization": "paused"
 }

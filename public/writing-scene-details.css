@@ -21,3 +21,8 @@
   pointer-events: none !important;
 }
 .writing-reference .scene-moving-art { pointer-events: none !important; }
+
+/* Fully remove inactive scene hit regions, including nested browsing contexts. */
+.writing-reference .scene-detail:not(.is-visible){display:none!important}
+.writing-reference .scene-detail[aria-hidden="true"],
+.writing-reference .scene-detail[aria-hidden="true"] *{pointer-events:none!important}

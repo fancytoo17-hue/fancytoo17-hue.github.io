@@ -31,7 +31,7 @@ jobs:
               assert p.is_file(),item['path']
               assert hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256'],item['path']
           assert {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}=={i['path'] for i in manifest}
-          print('Verified',len(manifest),'public files for approved baseline 3099f06')
+          print('Verified',len(manifest),'public files for approved baseline 4954e42')
           PY
           for script in public/*.js; do node --check "$script"; done
       - uses: actions/configure-pages@v5
@@ -50,12 +50,13 @@ jobs:
         run: |
           python3 - <<'PY'
           import os,json,hashlib,time,urllib.request,concurrent.futures
+          from urllib.parse import quote
           manifest=json.load(open('.github/release-manifest.json'))
-          selected=[i for i in manifest if i['path'].endswith(('.html','.js','.css','.pdf')) or i['path'].startswith('assets/cat-mobile/')]
+          selected=[i for i in manifest if i['path'].endswith(('.html','.js','.css','.pdf','.mp4')) or i['path'].startswith('assets/cat-mobile/')]
           def check(item):
               for attempt in range(5):
                   try:
-                      url=os.environ['SITE_URL'].rstrip('/')+'/'+item['path']+'?release='+os.environ['GITHUB_SHA']
+                      url=os.environ['SITE_URL'].rstrip('/')+'/'+quote(item['path'])+'?release='+os.environ['GITHUB_SHA']
                       with urllib.request.urlopen(url,timeout=25) as r: data=r.read()
                       if hashlib.sha256(data).hexdigest()!=item['sha256']: raise RuntimeError('Hash mismatch')
                       return item['path']
