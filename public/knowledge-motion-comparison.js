@@ -11,7 +11,7 @@
  function render(){gsap.killTweensOf(stage.querySelectorAll('*'));active=-1;busy=false;
  stage.innerHTML='<div class="km-lettering" aria-hidden="true"><span>ACADEMIC</span><span>TRANSLATION</span></div>'+works.map((w,i)=>`<div class="km-sheet" role="button" tabindex="0" aria-label="展开阅读 ${w.name}"><div class="km-scroll">${[0,1,2,3].map(p=>`<img src="${src(i,p)}" alt="${w.name}原刊第${p+1}页" draggable="false">`).join('')}</div></div>`).join('')+'<div class="km-controls"><button class="km-close" aria-label="收起稿件">×</button></div>';
  sheets=[...stage.querySelectorAll('.km-sheet')];controls=stage.querySelector('.km-controls');
- sheets.forEach((s,i)=>{s.onclick=()=>open(i);s.onkeydown=e=>{if(active<0&&['Enter',' '].includes(e.key)){e.preventDefault();open(i)}};s.onpointerenter=()=>{if(active<0&&!busy)gsap.to(s,{y:-5,duration:reduced?0:.3})};s.onpointerleave=()=>{if(active<0&&!busy)gsap.to(s,{y:0,rotation:i?5:-5,duration:reduced?0:.4})};});
+ sheets.forEach((s,i)=>{s.onclick=()=>open(i);s.onkeydown=e=>{if(active<0&&['Enter',' '].includes(e.key)){e.preventDefault();open(i)}};s.onpointerenter=e=>{if(e.pointerType!=='touch'&&active<0&&!busy)gsap.to(s,{y:-5,duration:reduced?0:.3})};s.onpointerleave=e=>{if(e.pointerType!=='touch'&&active<0&&!busy)gsap.to(s,{y:0,rotation:i?5:-5,duration:reduced?0:.4})};});
  controls.querySelector('.km-close').onclick=close;
 
  }

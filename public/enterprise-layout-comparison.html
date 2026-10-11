@@ -2,8 +2,10 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>(()=>{const r=document.documentElement,w=r.clientWidth,s=Math.min(w*.84,1280)/(1096*1.45);r.style.setProperty('--home-mobile-scale',w/1740);r.style.setProperty('--page-scale',s);r.style.setProperty('--page-width',1740*s+'px');r.style.setProperty('--scaled-nav',102*s+'px')})();</script>
+<link rel="preload" as="image" href="assets/cat-mobile/hero-first-paint.webp" media="(max-width:760px)" fetchpriority="high">
 <meta name="theme-color" content="#29425e"><title>冯斯亮 · 策划作品集</title>
-<link rel="preload" as="image" href="assets/poster-fast.webp" fetchpriority="high"><link rel="preload" as="font" href="hero-assets/noto-serif-hero.ttf" type="font/ttf" crossorigin><link rel="stylesheet" href="hero-assets/serif.css"><link rel="stylesheet" href="hero-assets/sans.css"><link rel="stylesheet" href="home.css">
+<link rel="preload" as="image" href="assets/poster-fast.webp" media="(min-width:761px)" fetchpriority="high"><link rel="preload" as="font" href="hero-assets/noto-serif-hero.ttf" type="font/ttf" crossorigin><link rel="stylesheet" href="hero-assets/serif.css"><link rel="stylesheet" href="hero-assets/sans.css"><link rel="stylesheet" href="home.css">
 <link rel="stylesheet" href="navigation.css">
 <link rel="stylesheet" href="navigation-colors.css"><link rel="stylesheet" href="transition-study.css">
 <script>const navColor=new URLSearchParams(location.search).get("nav");if(["deep","mist","refined"].includes(navColor))document.documentElement.dataset.navColor=navColor;</script>
@@ -25,7 +27,7 @@
 
 <main>
 <section class="stage" aria-label="冯斯亮的作品集开场">
- <div class="portrait"><canvas id="portrait-frame" aria-hidden="true"></canvas><video id="cat" muted playsinline preload="none" poster="assets/poster-fast.webp" aria-label="冯斯亮抱着黑猫，黑猫随鼠标左右转头"><source src="assets/cat-web.mp4" type="video/mp4"></video></div>
+ <div class="portrait"><img class="portrait-first-paint" src="assets/cat-mobile/hero-first-paint.webp" alt="" fetchpriority="high"><canvas id="portrait-frame" aria-hidden="true"></canvas><video id="cat" muted playsinline preload="none" data-poster="assets/poster-fast.webp" aria-label="冯斯亮抱着黑猫，黑猫随鼠标左右转头"><source src="assets/cat-web.mp4" type="video/mp4"></video></div>
  <div class="hero-copy">
   <h1 aria-label="喵～人好！或许你需要一个策划"><span class="headline-line" aria-hidden="true">喵～<em>人</em>好！</span><span class="headline-line" aria-hidden="true">或许你需<em>要</em>一个策划</span></h1>
   <ul class="profile-tags hero-entries" aria-label="策划方向与章节入口"><li><a class="hero-entry" href="#chapter-study"><span>商业竞标</span><svg class="hero-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></li><li><a class="hero-entry" href="#creative-study"><span>IP联名</span><svg class="hero-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></li><li><a class="hero-entry" href="#chapter-3"><span>品牌传播</span><svg class="hero-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></li><li class="contact-outline-item"><button class="contact-outline" type="button" title="点击复制手机号（微信同号）" aria-label="复制手机号 13121664213"><span class="contact-caption">联系她吧：<svg class="contact-globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg> <span class="contact-address" role="status" aria-live="polite" aria-atomic="true">13121664213</span></span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="8" width="10" height="13" rx="1.5"/><path d="M15 8V3H5v13h4"/></svg></button></li></ul>

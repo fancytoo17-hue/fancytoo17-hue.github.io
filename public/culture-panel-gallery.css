@@ -56,3 +56,20 @@
   color:#626262;white-space:pre-line;
 }
 .culture-case-quote span {display:block}
+
+/* Preserve the approved composition; gestures carry the touch adaptation. */
+.culture-panel-track{touch-action:pan-y pinch-zoom}
+.is-touch-gallery .culture-panel-item{-webkit-tap-highlight-color:transparent;user-select:none}
+
+/* Invisible hit area over the existing axis, no extra buttons or visual furniture. */
+.culture-drag-axis{position:absolute;left:0;top:0;height:100%;width:44px;margin-left:0;translate:-50% 0;
+ transform-origin:center;cursor:ew-resize;touch-action:none;z-index:4;background:transparent}
+.culture-drag-axis:focus-visible{outline:1px solid #0762ad;outline-offset:-1px}
+.is-touch-gallery .culture-drag-axis{margin-left:0;translate:-50% 0}
+
+.culture-drag-axis{pointer-events:auto}
+#culture-motion-detail .culture-panel-stage{touch-action:pan-y pinch-zoom}
+
+/* Separate invisible interaction plane keeps the axis reachable above the image plane. */
+.culture-axis-hit-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5}
+.culture-axis-hit-space{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}

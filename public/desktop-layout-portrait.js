@@ -3,7 +3,10 @@
 (()=>{
  const stage=document.querySelector('.portrait'),video=document.querySelector('#cat');
  const canvas=document.querySelector('#portrait-frame'),ctx=canvas.getContext('2d',{alpha:false});
- const poster=new Image();poster.src=video.poster;
+ const poster=new Image();
+ let mobileFrame=null;
+ const touchPortrait=matchMedia('(any-pointer:coarse), (max-width:760px)');
+ if(!touchPortrait.matches){video.poster=video.dataset.poster;poster.src=video.poster}
  const topEdge=document.createElement('canvas'),leftEdge=document.createElement('canvas'),rightEdge=document.createElement('canvas');
  topEdge.width=512;topEdge.height=1;leftEdge.width=1;leftEdge.height=1024;rightEdge.width=64;rightEdge.height=256;
  const topCtx=topEdge.getContext('2d'),leftCtx=leftEdge.getContext('2d'),rightCtx=rightEdge.getContext('2d');
@@ -12,8 +15,8 @@
  function draw(){
   scheduled=0;const w=stage.clientWidth,h=stage.clientHeight,screenDpr=Math.min((devicePixelRatio||1)*stage.getBoundingClientRect().width/w,2);
   if(!w||!h)return;
-  const source=decoded&&video.readyState>=2?video:poster;
-  const sw=source===video?video.videoWidth:poster.naturalWidth,sh=source===video?video.videoHeight:poster.naturalHeight;
+  const source=mobileFrame||(decoded&&video.readyState>=2?video:poster);
+  const sw=mobileFrame?mobileFrame.width:source===video?video.videoWidth:poster.naturalWidth,sh=mobileFrame?mobileFrame.height:source===video?video.videoHeight:poster.naturalHeight;
   if(!sw||!sh)return;
   // Do not upscale the backing store beyond the source pixel density.
   const dw=1740*.979,dpr=Math.min(screenDpr,sw/dw);
@@ -51,16 +54,24 @@
    ctx.drawImage(rightEdge,0,0,64,256,right-x-1,dy,1.1,dh);
   }
   ctx.restore();
+  canvas.classList.add('is-painted');
   // Continue the finished top row across the entire canvas in one operation.
   if(dy>0)ctx.drawImage(canvas,0,Math.ceil((dy+1)*dpr),bw,1,0,0,w,dy+2);
  }
  function schedule(){if(!scheduled)scheduled=requestAnimationFrame(draw)}
+ let videoRequested=false;
+ function ensureVideo(){if(touchPortrait.matches||videoRequested)return;videoRequested=true;video.preload='auto';video.load()}
+ window.ensurePortraitVideo=ensureVideo;
+ const tile=document.createElement('canvas');tile.width=640;tile.height=359;const tileContext=tile.getContext('2d',{alpha:false});
+ window.paintMobileCatFrame=(atlas,index)=>{tileContext.drawImage(atlas,(index%5)*640,Math.floor(index/5)*359,640,359,0,0,640,359);mobileFrame=tile;canvas.dataset.motionFrame=String(index);schedule()};
+ touchPortrait.addEventListener('change',()=>{if(!touchPortrait.matches){mobileFrame=null;video.poster=video.dataset.poster;poster.src=video.poster;ensureVideo();schedule()}});
  poster.onload=()=>{
   schedule();
   // Paint the static hero before the video competes for download bandwidth.
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{video.preload='auto';video.load()}));
+  requestAnimationFrame(()=>requestAnimationFrame(ensureVideo));
  };
- poster.onerror=()=>{video.preload='auto';video.load()};
+ poster.onerror=ensureVideo;
+ if(poster.complete&&poster.naturalWidth){schedule();requestAnimationFrame(ensureVideo)};
  video.addEventListener('loadeddata',()=>{decoded=true;schedule()});
  video.addEventListener('seeked',schedule);
  new ResizeObserver(schedule).observe(stage);window.addEventListener('resize',schedule);

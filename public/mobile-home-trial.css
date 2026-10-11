@@ -8,10 +8,28 @@
 .hero-band .stage{touch-action:pan-y}
 .fixed-nav{height:calc(102px * var(--home-mobile-scale))!important}
 .fixed-nav .iso-navigation{transform:translateX(-50%) scale(var(--home-mobile-scale))!important}
-.hero-copy .headline-line:active em{color:#80b8ff}
+
 }
 
-/* Touch preview must not depend on the desktop entrance observer to show work. */
-@media (hover:none), (max-width:760px){
-#portfolio-closing .bottom-cta-bg-w{opacity:1!important;visibility:visible!important;transform:none!important}
+/* Press feedback replaces desktop hover without adding persistent UI state. */
+@media (any-pointer:coarse), (max-width:760px){
+.xy-corner-variant .xy-strategy-point:active .xy-keyphrase,
+.c2-compare-prose p:active .xy-keyphrase{color:#0762ad}
+.xy-corner-variant .xy-strategy-point:active .xy-title-accent{color:#222}
+.xy-corner-variant .xy-strategy-point:active .xy-title-corners{inset:-2px;color:#0762ad}
+.c2-comparison .c2-compare-prompt:active{background:#f2f2f2;border-color:#666}
+#portfolio-closing .closing-contact .closing-hello:active{background:#000;color:#80b8ff}
+}
+
+.portrait-first-paint{display:none}
+@media(max-width:760px){
+.portrait-first-paint{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.portrait canvas{position:relative;opacity:0}
+.portrait canvas.is-painted{opacity:1}
+}
+
+@media(any-pointer:coarse),(max-width:760px){
+ .hero-copy h1 em{transition:color .12s ease;}
+ .hero-copy .headline-line:hover em{color:inherit;}
+ .hero-copy .headline-line.is-touch-accent em{color:#80b8ff;}
 }

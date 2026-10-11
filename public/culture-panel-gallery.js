@@ -7,7 +7,7 @@
   detail.querySelector('.scene-detail-art')?.remove();
   detail.dataset.contentStatus='user-scheme-one-trial';
   const stage=document.createElement('div');stage.className='culture-panel-stage';
-  stage.setAttribute('role','group');stage.setAttribute('aria-label','文章配图方案一，方向键切换图片');
+  stage.setAttribute('role','group');stage.setAttribute('aria-label','文章配图：滑动或方向键切换；点选图片，再次点击已展开图片阅读原文');
   const space=document.createElement('div');space.className='culture-panel-space';
   const frame=document.createElement('div');frame.className='culture-panel-frame';frame.setAttribute('aria-hidden','true');
   const line=document.createElement('div');line.className='culture-panel-line';line.setAttribute('aria-hidden','true');
@@ -101,9 +101,26 @@
       .call(apply)
       .to(quote,{x:localX,opacity:1,duration:changingSide?.38:.28,ease:'power2.out'});
   }
+  const touchMode=matchMedia('(any-pointer:coarse), (max-width:760px)');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)');
   let selected=0,rx=0,ry=0,targetX=0,targetY=0,running=false;
-  function geometry(animate=false){
+  let touchInput=touchMode.matches,gesture=null,suppressClick=false,dragProgress=0;
+  const dragAxis=document.createElement('div');dragAxis.className='culture-drag-axis';dragAxis.tabIndex=0;
+  dragAxis.setAttribute('role','slider');dragAxis.setAttribute('aria-label','左右拖动轴线切换文章');
+  dragAxis.setAttribute('aria-valuemin','1');dragAxis.setAttribute('aria-valuemax',String(items.length));
+  const hitLayer=document.createElement('div');hitLayer.className='culture-axis-hit-layer';
+  const hitSpace=document.createElement('div');hitSpace.className='culture-axis-hit-space';
+  hitSpace.append(dragAxis);hitLayer.append(hitSpace);detail.append(hitLayer);
+  function updateControls(){
+    dragAxis.setAttribute('aria-valuenow',String(selected+1));dragAxis.setAttribute('aria-valuetext',articles[selected].title);
+    stage.classList.toggle('is-touch-gallery',touchInput);
+    items.forEach((item,i)=>{
+      item.href=articles[i].url;
+      item.setAttribute('aria-label',touchInput&&i!==selected?`选择《${articles[i].title}》，再次点击阅读原文`:`阅读《${articles[i].title}》原文（新标签页）`);
+    });
+  }
+  touchMode.addEventListener('change',()=>{touchInput=touchMode.matches;updateControls();geometry();sync()});
+  function geometry(animate=false,progress=selected){
     // Layout coordinates remain correct under the site's shared chapter scaling.
     const w=stage.offsetWidth,trackWidth=w*.8,padding=w*.005;
     // Match the reference image-width ratio, including the existing panel padding.
@@ -112,18 +129,21 @@
     const closed=(trackWidth-opened)/(items.length-1);
     const expandedWeight=(opened-padding*2)/(closed-padding*2);
     const height=(opened-padding*2)*cardHeight/cropWidth+padding*2;
-    const x=w*.1+closed*selected,y=(stage.offsetHeight-height)/2;
+    const x=w*.1+closed*progress,y=(stage.offsetHeight-height)/2;
     track.style.height=height+'px';items.forEach(item=>item.style.padding=padding+'px');
     stage.style.perspective=w*.5+'px';
-    axis.style.perspective=w*.5+'px';
+    axis.style.perspective=w*.5+'px';hitLayer.style.perspective=w*.5+'px';
     const origin=stage.offsetTop+stage.offsetHeight/2;
     axis.style.perspectiveOrigin=`50% ${origin}px`;
     axisSpace.style.transformOrigin=`50% ${origin}px`;
+    hitLayer.style.perspectiveOrigin=`50% ${origin}px`;hitSpace.style.transformOrigin=`50% ${origin}px`;
     updateTitleCutout();
-    const timing={duration:animate&&!reduce.matches ? .7 : 0,ease:'power3.out',overwrite:true};
-    gsap.to(items,{flexGrow:i=>i===selected?expandedWeight:1,...timing});
+    const timing={duration:animate&&!reduce.matches ? (touchInput?.32:.7) : 0,ease:'power3.out',overwrite:true};
+    gsap.to(items,{flexGrow:i=>1+(expandedWeight-1)*Math.max(0,1-Math.abs(i-progress)),...timing});
     gsap.to(frame,{x,y,width:opened,height,...timing});
     const axisX=x+opened/2;
+    dragAxis.style.width=44/(stage.getBoundingClientRect().width/w||1)+'px';
+    gsap.to(dragAxis,{x:axisX,...timing});
     gsap.to(line,{x:axisX,...timing});
     positionQuote(axisX,y-quote.offsetHeight-24,axisX<=w/2,animate,timing);
     updateTitleCutout();
@@ -140,43 +160,83 @@
       const r=l+titleWidth+pad*2,b=t+header.offsetHeight+pad*2;
       // Opposite winding cuts a transparent hole without repainting the gradient.
       let cutout=`polygon(0px 0px,${w}px 0px,${w}px ${detail.offsetHeight}px,0px ${detail.offsetHeight}px,0px 0px,${l}px ${t}px,${l}px ${b}px,${r}px ${b}px,${r}px ${t}px,${l}px ${t}px,0px 0px`;
-      axis.style.clipPath=cutout+')';
+      axis.style.clipPath=cutout+')';hitLayer.style.clipPath=axis.style.clipPath;
     }
   }
-  function select(index){
-    if(index===selected)return;
-    selected=index;
+  function select(index,progress=index,dragging=false){
+    index=Math.max(0,Math.min(items.length-1,index));
+    if(index===selected&&!dragging)return;
+    selected=index;dragProgress=progress;updateControls();
     items.forEach((item,i)=>{item.setAttribute('aria-current',String(i===index));item.tabIndex=i===index?0:-1});
-    geometry(true);
+    if(touchInput){targetY=(progress/(items.length-1)-.5)*32;targetX=-5;}
+    geometry(!dragging,progress);
   }
   items.forEach((item,i)=>{
-    item.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch')select(i)});
-    item.addEventListener('pointerdown',e=>{if(e.pointerType==='touch')select(i)});
-    item.addEventListener('click',e=>{e.stopPropagation();select(i)});
-    item.addEventListener('focus',()=>select(i));
+    item.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch'&&!touchInput)select(i)});
+    item.addEventListener('click',e=>{e.stopPropagation();if(suppressClick){e.preventDefault();return;}if(touchInput&&i!==selected){e.preventDefault();select(i);}else if(!touchInput)select(i)});
+    item.addEventListener('focus',()=>{if(!gesture&&!touchInput)select(i)});
     item.addEventListener('keydown',e=>{
+      suppressClick=false;
+      if(touchInput&&e.key===' '){e.preventDefault();select(i);return;}
+      if(touchInput&&e.key==='Enter'&&i!==selected){e.preventDefault();select(i);return;}
       const next=e.key==='ArrowRight'?(i+1)%items.length:e.key==='ArrowLeft'?(i+items.length-1)%items.length:e.key==='Home'?0:e.key==='End'?items.length-1:null;
       if(next===null)return;e.preventDefault();e.stopPropagation();select(next);items[next].focus({preventScroll:true});
     });
   });
+  track.addEventListener('dragstart',e=>e.preventDefault());
+  detail.addEventListener('pointerdown',e=>{
+    if(e.target!==dragAxis&&!track.contains(e.target))return;
+    if(e.isPrimary===false){gesture=null;suppressClick=true;return;}
+    if(e.pointerType==='touch'&&!touchInput){touchInput=true;updateControls();sync();}
+    if(!touchInput&&e.target!==dragAxis)return;
+    suppressClick=false;gesture={id:e.pointerId,x:e.clientX,y:e.clientY,start:selected,onAxis:e.target===dragAxis,axis:e.target===dragAxis?'x':null};
+    if(e.target===dragAxis)dragAxis.setPointerCapture(e.pointerId);
+  });
+  detail.addEventListener('pointermove',e=>{
+    if(!gesture||gesture.id!==e.pointerId)return;
+    const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;
+    if(!gesture.axis&&Math.hypot(dx,dy)>5)gesture.axis=Math.abs(dx)>Math.abs(dy)*1.1?'x':'y';
+    if(!gesture.axis)return;
+    suppressClick=true;
+    if(gesture.axis==='y')return;
+    const capture=gesture.onAxis?dragAxis:detail;
+    if(!capture.hasPointerCapture(e.pointerId))capture.setPointerCapture(e.pointerId);
+    const r=track.getBoundingClientRect(),span=r.width*.55;
+    // The axis follows the finger continuously, including intermediate card widths.
+    const progress=Math.max(0,Math.min(items.length-1,gesture.start+dx/span*(items.length-1)));
+    targetX=Math.max(-12,Math.min(12,-dy*.12-5));
+    select(Math.round(progress),progress,true);
+  },{passive:true});
+  function finishDrag(cancelled=false){
+    if(gesture?.axis==='x'){geometry(true,selected);dragProgress=selected;}
+    if(cancelled)suppressClick=true;gesture=null;
+  }
+  detail.addEventListener('pointerup',()=>finishDrag());
+  detail.addEventListener('pointercancel',()=>finishDrag(true));
+  detail.addEventListener('lostpointercapture',()=>finishDrag());
+  dragAxis.addEventListener('click',e=>{e.preventDefault();e.stopPropagation()});
+  dragAxis.addEventListener('keydown',e=>{
+    const next=e.key==='ArrowRight'?Math.min(7,selected+1):e.key==='ArrowLeft'?Math.max(0,selected-1):e.key==='Home'?0:e.key==='End'?7:null;
+    if(next!==null){e.preventDefault();e.stopPropagation();select(next)}
+  });
   // Interaction inside the gallery must not trigger the chapter's click-to-return.
   stage.addEventListener('click',e=>e.stopPropagation());
   stage.addEventListener('pointermove',e=>{
-    if(reduce.matches||e.pointerType==='touch')return;
+    if(reduce.matches||touchInput||gesture||e.pointerType==='touch')return;
     const b=stage.getBoundingClientRect();
     targetY=((e.clientX-b.left)/b.width-.5)*40;
     targetX=(.5-(e.clientY-b.top)/b.height)*40;
   });
-  stage.addEventListener('pointerleave',()=>{targetX=0;targetY=0});
+  stage.addEventListener('pointerleave',()=>{if(!touchInput&&!gesture){targetX=0;targetY=0}});
   function tick(){
     const a=1-Math.pow(.9,gsap.ticker.deltaRatio());
     rx+=(targetX-rx)*a;ry+=(targetY-ry)*a;
-    gsap.set([space,axisSpace],{rotationX:rx,rotationY:ry});
+    gsap.set([space,axisSpace,hitSpace],{rotationX:rx,rotationY:ry});
   }
   function sync(){
     const visible=root.dataset.view==='culture'&&!document.hidden&&!reduce.matches;
     if(visible&&!running){gsap.ticker.add(tick);running=true}
-    if(!visible&&running){gsap.ticker.remove(tick);running=false;targetX=targetY=rx=ry=0;gsap.set([space,axisSpace],{rotationX:0,rotationY:0})}
+    if(!visible&&running){gsap.ticker.remove(tick);running=false;targetX=targetY=rx=ry=0;gsap.set([space,axisSpace,hitSpace],{rotationX:0,rotationY:0})}
   }
   new ResizeObserver(()=>geometry()).observe(stage);
   const titleHeader=detail.querySelector('.scene-detail-header');
@@ -186,5 +246,5 @@
   }
   new MutationObserver(()=>{geometry();sync()}).observe(root,{attributes:true,attributeFilter:['data-view']});
   document.addEventListener('visibilitychange',sync);reduce.addEventListener('change',()=>{geometry();sync()});
-  renderQuote();geometry();sync();
+  updateControls();renderQuote();geometry();sync();
 })();

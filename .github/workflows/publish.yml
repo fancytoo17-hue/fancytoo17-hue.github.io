@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 concurrency:
@@ -19,52 +19,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Obtain and verify approved public files
+      - name: Verify approved public release
         run: |
           python3 - <<'PY'
-          import json, hashlib, urllib.request, concurrent.futures
+          import json,hashlib
           from pathlib import Path
-          from urllib.parse import quote
-          manifest=json.loads(Path('.github/release-manifest.json').read_text())
           root=Path('public')
-          origin='https://fengsiliang-portfolio.fancytoo17.workers.dev/'
-          def obtain(item):
+          manifest=json.loads(Path('.github/release-manifest.json').read_text())
+          for item in manifest:
               p=root/item['path']
-              if p.exists() and hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256']:
-                  return item['path']
-              req=urllib.request.Request(origin+quote(item['path']),headers={'User-Agent':'Portfolio-release-verification','Accept-Encoding':'identity'})
-              with urllib.request.urlopen(req,timeout=45) as response:
-                  data=response.read()
-              if hashlib.sha256(data).hexdigest()!=item['sha256']:
-                  raise RuntimeError('SHA256 mismatch: '+item['path'])
-              p.parent.mkdir(parents=True,exist_ok=True)
-              p.write_bytes(data)
-              return item['path']
-          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-              for path in executor.map(obtain,manifest):
-                  print('Verified:',path)
-          assert (root/'index.html').exists()
-          print('All',len(manifest),'public files match the approved release.')
+              assert p.is_file(),item['path']
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256'],item['path']
+          assert {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}=={i['path'] for i in manifest}
+          print('Verified',len(manifest),'public files for approved baseline 3099f06')
           PY
-      - name: Preserve verified site in repository
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public
-          if ! git diff --cached --quiet; then
-            git commit -m "Import verified portfolio public release"
-            git push origin HEAD:main
-          fi
-      - name: Optimize first-screen cover for delivery
-        run: |
-          python3 -m pip install 'Pillow==12.3.0'
-          python3 .github/scripts/optimize_cover.py public
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+          for script in public/*.js; do node --check "$script"; done
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: public
           name: github-pages-${{ github.run_attempt }}
@@ -73,3 +44,25 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages-${{ github.run_attempt }}
+      - name: Verify live critical assets
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python3 - <<'PY'
+          import os,json,hashlib,time,urllib.request,concurrent.futures
+          manifest=json.load(open('.github/release-manifest.json'))
+          selected=[i for i in manifest if i['path'].endswith(('.html','.js','.css','.pdf')) or i['path'].startswith('assets/cat-mobile/')]
+          def check(item):
+              for attempt in range(5):
+                  try:
+                      url=os.environ['SITE_URL'].rstrip('/')+'/'+item['path']+'?release='+os.environ['GITHUB_SHA']
+                      with urllib.request.urlopen(url,timeout=25) as r: data=r.read()
+                      if hashlib.sha256(data).hexdigest()!=item['sha256']: raise RuntimeError('Hash mismatch')
+                      return item['path']
+                  except Exception:
+                      if attempt==4: raise
+                      time.sleep(5)
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+              for p in pool.map(check,selected): print('Live verified:',p)
+          print('Live verification passed:',len(selected),'assets')
+          PY

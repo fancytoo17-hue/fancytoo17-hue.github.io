@@ -16,37 +16,43 @@
   const bg = root.querySelector('.bottom-cta-bg-w');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const desktop = matchMedia('(any-hover: hover) and (any-pointer: fine)');
+  const touch=matchMedia('(any-pointer:coarse), (max-width:760px)');
   const ranges = [[30,-30,-20,20],[20,40,20,-20],[10,-20,10,-20],[-20,20,-10,20],[-20,30,30,-30],[30,-20,-20,20]];
   const cards = ranges.map((r,i) => ({el:root.querySelector(`.bottom-cta-bg-img-${i+1}`),r}));
-  let visible=false, entered=false, raf=0, last=0, x=.5,y=.5,tx=.5,ty=.5;
+  let visible=false, entered=false, raf=0, last=0, elapsed=0, x=.5,y=.5,tx=.5,ty=.5;
   function frame(now) {
     raf=0;
-    if (!visible || reduced.matches || !desktop.matches) return;
-    const alpha=1-Math.pow(.9,Math.min(64,now-(last||now-16.67))/16.67);last=now;
+    if (!visible || reduced.matches || document.hidden) return;
+    const dt=Math.min(64,now-(last||now-16.67));last=now;
+    elapsed+=dt;
+    if(touch.matches){tx=.5+Math.sin(elapsed/1800)*.4;ty=.5+Math.sin(elapsed/2400)*.4;}
+    const alpha=1-Math.pow(.9,dt/16.67);
     x+=(tx-x)*alpha;y+=(ty-y)*alpha;
     cards.forEach(({el,r})=>el.style.translate=`${r[0]+(r[1]-r[0])*x}% ${r[2]+(r[3]-r[2])*y}%`);
-    if(Math.abs(tx-x)+Math.abs(ty-y)>.0001) raf=requestAnimationFrame(frame);
+    if(touch.matches||Math.abs(tx-x)+Math.abs(ty-y)>.0001) raf=requestAnimationFrame(frame);
   }
   function request(){if(!raf){last=0;raf=requestAnimationFrame(frame);}}
-  window.addEventListener('pointermove',e=>{tx=e.clientX/innerWidth;ty=e.clientY/innerHeight;request();},{passive:true});
+  window.addEventListener('pointermove',e=>{if(!touch.matches){tx=e.clientX/innerWidth;ty=e.clientY/innerHeight;request();}},{passive:true});
   document.documentElement.addEventListener('pointerleave',()=>{tx=ty=.5;request();});
   function reset(){cards.forEach(({el})=>el.style.translate='');request();}
   desktop.addEventListener('change',reset);reduced.addEventListener('change',reset);
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)request();},{rootMargin:'100px'}).observe(root);
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)request();else{cancelAnimationFrame(raf);raf=0;}},{rootMargin:'100px'}).observe(root);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else request();});
+  touch.addEventListener('change',reset);
   // Decode photos before revealing them: slow CDN loads must not consume the entrance.
   const photos = [...bg.querySelectorAll('img')];
   let entranceReady = false, inEntranceView = false, entranceAnimation;
-  bg.style.opacity = reduced.matches ? '1' : '0';
+  bg.style.opacity = '1';
   const photosReady = Promise.all(photos.map(img => {
     img.loading = 'eager';
     return img.decode().catch(() => {});
   }));
   function reveal() {
     if (!entranceReady || !inEntranceView || entered) return;
-    entered = true;
+    entered = true;bg.dataset.motionEntrance='played';
     bg.style.opacity = '1';
     if (!reduced.matches) entranceAnimation = bg.animate(
-      [{opacity:0,transform:'scale(1.25)'},{opacity:1,transform:'scale(1)'}],
+      [{opacity:1,transform:'scale(1.25)'},{opacity:1,transform:'scale(1)'}],
       {duration:1000,easing:'cubic-bezier(.165,.84,.44,1)'}
     );
   }
@@ -58,7 +64,7 @@
     entranceObserver = new IntersectionObserver(entries => {
       inEntranceView = entries[0].isIntersecting;
       reveal();
-    }, {rootMargin:`0px 0px -${innerHeight * .2}px 0px`});
+    }, {threshold:.01});
     entranceObserver.observe(bg);
   }
   observeEntrance();

@@ -6,6 +6,7 @@
   const grid = cover.querySelector('.c2-sheet-grid');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const pointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const mobile = matchMedia('(any-pointer:coarse), (max-width:760px)');
   const surface = document.createElement('canvas');
   surface.className = 'c2-ripple-canvas';
   surface.setAttribute('aria-hidden', 'true');
@@ -18,10 +19,11 @@
     uniform sampler2D picture;
     uniform sampler2D displacement;
     uniform vec2 size;
+    uniform float amplitude;
     void main(){
       float wave=texture2D(displacement,uv).r;
       float theta=wave*6.283185;
-      vec2 offset=vec2(sin(theta),cos(theta))*wave*52.;
+      vec2 offset=vec2(sin(theta),cos(theta))*wave*amplitude;
       vec2 edge=min(uv,1.-uv)*size;
       offset*=smoothstep(0.,24.,min(edge.x,edge.y));
       gl_FragColor=texture2D(picture,clamp(uv+offset/size,vec2(.001),vec2(.999)));
@@ -51,7 +53,7 @@
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-  const uniforms = Object.fromEntries(['picture','size','displacement'].map(key => [key, gl.getUniformLocation(program,key)]));
+  const uniforms = Object.fromEntries(['picture','size','displacement','amplitude'].map(key => [key, gl.getUniformLocation(program,key)]));
   gl.uniform1i(uniforms.picture, 0);
   gl.uniform1i(uniforms.displacement, 1);
   const field=document.createElement('canvas'), fieldContext=field.getContext('2d');
@@ -73,11 +75,28 @@
   cover.append(surface);
   const points = new Float32Array(32*4);
   let ready=false, visible=false, frame=0, cursor=0, last=null, lastEmission=0, lastWave=-Infinity, width=0, height=0, lost=false, settleTimer=0;
+  let introduced=false,scrollFrame=0,previousTop=null;
+  function introduce(){
+    if(introduced||!mobile.matches||!allowed())return;
+    const r=cover.getBoundingClientRect();
+    if(r.bottom<=0||r.top>=innerHeight)return;
+    introduced=true;cover.dataset.mobileRippleIntro='shown';last=null;
+    emitRipple({clientX:r.left+r.width*.38,clientY:Math.max(r.top+20,Math.min(r.bottom-20,innerHeight*.78))},true);
+  }
+  function scrollPulse(){
+    scrollFrame=0;if(!mobile.matches)return;
+    const r=cover.getBoundingClientRect();visible=r.bottom>0&&r.top<innerHeight;
+    if(!visible){stop();previousTop=null;return;}
+    introduce();
+    if(previousTop!==null&&Math.abs(r.top-previousTop)>4&&performance.now()-lastEmission>160){last=null;emitRipple({clientX:r.left+r.width*(.4+.15*Math.sin(r.top/90)),clientY:Math.max(r.top+12,Math.min(r.bottom-12,innerHeight*.6))},true);}
+    previousTop=r.top;
+  }
+  window.addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(scrollPulse)},{passive:true});
   function stop() {
     clearTimeout(settleTimer);cancelAnimationFrame(frame); frame=0; last=null; lastWave=-Infinity; points.fill(0);
     cover.classList.remove('is-rippling');
   }
-  function allowed(){return ready && visible && !lost && !reduced.matches && pointer.matches && !document.hidden;}
+  function allowed(){return ready && visible && !lost && !reduced.matches && !document.hidden;}
   function draw() {
     const now=performance.now();
     frame=0;
@@ -89,7 +108,7 @@
     for(let i=0;i<32;i++){
       const age=now/1000-points[i*4+2],strength=points[i*4+3];
       if(!strength || age<0 || age>2.8)continue;
-      const radius=(70+age*165)*scale;
+      const radius=(70+age*165)*scale*(mobile.matches?1.8:1);
       fieldContext.globalAlpha=strength*.48*Math.exp(-age*1.65)*Math.min(1,(2.8-age)/.6);
       fieldContext.drawImage(brush,points[i*4]*scale-radius,points[i*4+1]*scale-radius,radius*2,radius*2);
     }
@@ -123,33 +142,41 @@
     field.width=Math.ceil(width*.5);field.height=Math.ceil(height*.5);
     gl.viewport(0,0,surface.width,surface.height);
     gl.uniform2f(uniforms.size,width,height);
-    try{gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);ready=true;}catch{ready=false;}
+    gl.uniform1f(uniforms.amplitude,mobile.matches?100:52);
+    try{gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);ready=true;introduce();}catch{ready=false;}
   }
-  function emitRipple(event){
+  function emitRipple(event,force=false){
     const r=cover.getBoundingClientRect(),now=performance.now();
     // Pointer input is newer than a queued IntersectionObserver notification.
     visible=r.bottom>0 && r.top<innerHeight && r.right>0 && r.left<innerWidth;
-    if(!allowed() || event.pointerType==='touch') return;
+    if(!allowed()) return;
     const x=(event.clientX-r.left)/r.width*width,y=(event.clientY-r.top)/r.height*height;
     const distance=last?Math.hypot(x-last.x,y-last.y):8;
     const speed=last?distance/Math.max(8,now-last.time):.25;
     last={x,y,time:now};
-    if(distance<1 || now-lastEmission<28) return;
+    if(!force&&(distance<1 || now-lastEmission<28)) return;
     points.set([x,y,now/1000,Math.min(1.25,.65+speed*.5)],cursor*4);
     cursor=(cursor+1)%32;lastEmission=lastWave=now;
     clearTimeout(settleTimer);settleTimer=setTimeout(stop,2850);
     if(!frame) draw();
   }
-  cover.addEventListener('pointerenter',emitRipple,{passive:true});
-  cover.addEventListener('pointermove',emitRipple,{passive:true});
+  cover.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch'&&pointer.matches)emitRipple(e)},{passive:true});
+  cover.addEventListener('pointermove',e=>{
+    if(tap&&tap.id===e.pointerId&&Math.hypot(e.clientX-tap.x,e.clientY-tap.y)>10)tap.moved=true;
+    emitRipple(e);
+  },{passive:true});
+  let tap=null;
+  cover.addEventListener('pointerdown',e=>{if(e.isPrimary!==false){last=null;emitRipple(e,true)}if(e.isPrimary!==false)tap={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false}},{passive:true});
+  cover.addEventListener('pointerup',e=>{if(tap&&tap.id===e.pointerId&&!tap.moved){last=null;emitRipple(e)}tap=null},{passive:true});
+  cover.addEventListener('pointercancel',()=>{tap=null},{passive:true});
   cover.addEventListener('pointerleave',()=>{last=null;});
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(!visible)stop();}).observe(cover);
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(!visible)stop();else introduce();},{threshold:[0,.01,.1,.5]}).observe(cover);
   new ResizeObserver(()=>{if(ready)compose();}).observe(cover);
   window.addEventListener('resize',()=>{if(ready)compose();},{passive:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   reduced.addEventListener('change',stop);pointer.addEventListener('change',stop);
   surface.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;ready=false;stop();});
   // If the GPU context is lost, retain the original DOM until the next page load.
-  Promise.all([...grid.querySelectorAll('img')].map(img=>img.decode())).then(compose).catch(()=>{});
+  const preload=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)return;preload.disconnect();const images=[...grid.querySelectorAll('img')];images.forEach(img=>img.loading='eager');Promise.all(images.map(img=>img.decode())).then(compose).catch(()=>{});},{rootMargin:'1000px'});preload.observe(cover);
   }
 })();
